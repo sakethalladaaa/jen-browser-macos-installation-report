@@ -38,3 +38,23 @@ Do not globally disable Gatekeeper or remove quarantine protections simply to ma
 ## Scope
 
 This is one user's report of one machine and one download retry, **not** proof of a systemic server bug. It is not the official Jen Browser issue tracker.
+
+## Installation tools and proposed fixes
+
+**Read-only macOS diagnostics:**
+
+```bash
+# Verify the downloaded installer and print its SHA-256.
+bash scripts/check-installer.sh "$HOME/Downloads/Jen-0.1.1-arm64.dmg"
+
+# Check the installed app's code signature, Gatekeeper decision, and stapled ticket.
+bash scripts/check-app-trust.sh "/Applications/Jen.app"
+```
+
+The first script accepts an optional second parameter containing an **independently obtained official SHA-256**; without it, the script does not establish publisher authenticity. The second script may report failure for an unnotarized application; it never overrides macOS security protections.
+
+- [User troubleshooting and safe recovery](docs/macos-troubleshooting.md)
+- [Upstream maintainer release/signing/notarization fix plan](docs/upstream-maintainer-fix-plan.md)
+- [Script syntax validation workflow](.github/workflows/validate-scripts.yml)
+
+**Status:** These tools and docs are committed. Actual Jen binaries have not been modified, the macOS app launch is unconfirmed, and Apple notarization requires the upstream maintainer's authorized release pipeline. GitHub Actions execution is not asserted as passing until it runs.
